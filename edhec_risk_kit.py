@@ -214,8 +214,10 @@ def plot_ef(n_points, expected_r, cov, style = ".-",show_cml = False, riskfree_r
         "Volatility":vols
     })
     
-    ax = ef.plot.line(x="Volatility", y="Returns", style = style)
-    
+    ax = ef.plot.line(x="Volatility", y="Returns", title = "{}-Asset Efficient Frontier".format(n_points), style = style)
+    ax.set_ylabel('Returns')
+    ax.set_xlabel('Volatility')
+ 
     if show_gmv:
         w_gmv = gmv(cov)
         r_gmv = portfolio_return(w_gmv, expected_r) 
@@ -232,6 +234,7 @@ def plot_ef(n_points, expected_r, cov, style = ".-",show_cml = False, riskfree_r
         # display EW
         ax.plot(vol_ew, r_ew, color ='goldenrod', marker='o', markersize=12)
         plt.text(vol_ew, r_ew, "EW-Portfolio")
+        
     if show_cml:
         ax.set_xlim(left = 0)
         w_msr = msr(riskfree_rate, expected_r, cov)
@@ -242,7 +245,9 @@ def plot_ef(n_points, expected_r, cov, style = ".-",show_cml = False, riskfree_r
         cml_y = [riskfree_rate, r_msr]
         ax.plot(cml_x,cml_y, color="green", marker="o", linestyle="dashed", markersize=12, linewidth=2)
         plt.text(cml_x[1], cml_y[1], '({:.2f},{:.2f})'.format(cml_x[1],cml_y[1]))
+        
     return ax
+
 def msr(riskfree_rate, er, cov):
     '''
     RiskfreeRate + Expected Return + Cov -> Weights of msr
