@@ -48,6 +48,31 @@ def get_ind_returns():
     ind.index = pd.to_datetime(ind.index, format = "%Y%m").to_period("M")
     ind.columns = ind.columns.str.strip()
     return ind
+
+def get_ind30_returns():
+    '''
+    Load and format the Ken French 30 Industry Portfolios Value Weighted Monthly
+    '''
+    ind=pd.read_csv("data/ind30_m_vw_rets.csv", header=0, index_col=0, parse_dates=True)/100
+    ind.index = pd.to_datetime(ind.index, format = "%Y%m").to_period("M")
+    ind.columns = ind.columns.str.strip()
+    return ind
+
+def get_ind30_size():
+    '''
+    Load the size 
+    '''
+    ind=pd.read_csv("data/ind30_m_size.csv", header=0, index_col=0, parse_dates=True)
+    ind.index = pd.to_datetime(ind.index, format = "%Y%m").to_period("M")
+    ind.columns = ind.columns.str.strip()
+    return ind
+
+def get_ind30_nfirms():
+ 
+    ind=pd.read_csv("data/ind30_m_nfirms.csv", header=0, index_col=0, parse_dates=True)
+    ind.index = pd.to_datetime(ind.index, format = "%Y%m").to_period("M")
+    ind.columns = ind.columns.str.strip()
+    return ind
     
 def semideviation(r):
     '''
