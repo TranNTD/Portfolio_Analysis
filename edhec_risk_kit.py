@@ -298,7 +298,7 @@ def msr(riskfree_rate, er, cov):
     '''
     n = er.shape[0]
     init_guests = np.repeat(1/n,n)
-    bounds = ((0.0, 1.0),)*n # n copy from (0,1) tuple
+    bounds = ((0.0, 1.0),)*n # n copies from (0,1) tuple
     weights_sum_to_1= {
         'type':'eq',
         'fun': lambda weights: np.sum(weights)-1
@@ -396,8 +396,20 @@ def summary_stats(r, riskfree_rate=0.03):
         "Max Drawdown": dd
     })
     
-      
-        
+def gbm(n_years=10, n_scenarios=100, mu=0.07, sigma=0.15, steps_per_year=12, s_0=100.0):
+    '''
+    Evolution of a Stock Pricing using a Geometric Brownian Motion Model
+    xi is random normal
+    '''
+    
+    dt = 1/steps_per_year
+    n_steps = int(n_years*steps_per_year)
+    rets_plus_1 = np.random.normal(loc=(1+mu*dt),scale=sigma*np.sqrt(dt),size=(n_steps, n_scenarios)) # generate matrix which has rows=steps, columns=scenarios
+    rets_plus_1[0] = 1
+    
+    #to price
+    prices = s_0*pd.DataFrame(rets_plus_1).cumprod()
+    return prices     
     
 
 
